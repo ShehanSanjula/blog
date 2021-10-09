@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>ISO/IEC 27017 — Implementation</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preload" href="/assets/css/app.css?v=5f8d650140" as="style" />
+    <link rel="preload" href="/assets/js/manifest.js?v=5f8d650140" as="script" />
+    <link rel="preload" href="/assets/js/vendor/content-api.min.js?v=5f8d650140" as="script" />
+    <link rel="preload" href="/assets/js/vendor.js?v=5f8d650140" as="script" />
+    <link rel="preload" href="/assets/js/app.js?v=5f8d650140" as="script" />
+    <link rel="preconnect" href="https://polyfill.io">
+    <link rel="dns-prefetch" href="https://polyfill.io">
+
+      <link rel="preload" href="/assets/css/post.css?v=5f8d650140" as="style" />
+  <link rel="preload" href="/assets/js/post.js?v=5f8d650140" as="script" />
+
+
+    <style>
+      /* These font-faces are here to make fonts work if the Ghost instance is installed in a subdirectory */
+
+      /* source-sans-pro-regular */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('SourceSansPro-Regular'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff2?v=5f8d650140") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff?v=5f8d650140") format('woff');
+      }
+
+      /* source-sans-pro-600 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('SourceSansPro-SemiBold'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff2?v=5f8d650140") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff?v=5f8d650140") format('woff');
+      }
+
+      /* source-sans-pro-700 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local('SourceSansPro-Bold'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff2?v=5f8d650140") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff?v=5f8d650140") format('woff');
+      }
+
+      /* iconmoon */
+      @font-face {
+        font-family: 'icomoon';
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+        src: url("/assets/fonts/icomoon/icomoon.eot?101fc3?v=5f8d650140");
+        src: url("/assets/fonts/icomoon/icomoon.eot?101fc3#iefix?v=5f8d650140") format('embedded-opentype'),
+        url("/assets/fonts/icomoon/icomoon.ttf?101fc3?v=5f8d650140") format('truetype'),
+        url("/assets/fonts/icomoon/icomoon.woff?101fc3?v=5f8d650140") format('woff'),
+        url("/assets/fonts/icomoon/icomoon.svg?101fc3#icomoon?v=5f8d650140") format('svg');
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/app.css?v=5f8d650140" media="screen" />
+
+      <link rel="stylesheet" type="text/css" href="/assets/css/post.css?v=5f8d650140" media="screen" />
+
+
+    
+
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="https://blog.shehansanjula.me/iso-iec-27017-implementation/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    
+    <meta property="og:site_name" content="Blog of Shehan" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="ISO/IEC 27017 — Implementation" />
+    <meta property="og:description" content="This is an individual assignment that I did under the Enterprise Standards for Information Security module when I was in the 3rd year 2nd semester. It is basically a toolkit I prepared for ISO/IEC 27017:2015 standard. Here I will share an brief overview of toolkit implementation.AcknowledgementI thank" />
+    <meta property="og:url" content="https://blog.shehansanjula.me/iso-iec-27017-implementation/" />
+    <meta property="og:image" content="https://blog.shehansanjula.me/content/images/2021/10/ISO_implementation._re_shehan.png" />
+    <meta property="article:published_time" content="2021-10-05T03:41:20.000Z" />
+    <meta property="article:modified_time" content="2021-10-09T13:30:36.000Z" />
+    <meta property="article:tag" content="ISO/IEC 27017" />
+    <meta property="article:tag" content="Shehan Sanjula" />
+    <meta property="article:tag" content="Publications" />
+    <meta property="article:tag" content="Academic" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/shehansanjula66" />
+    <meta property="article:author" content="https://www.facebook.com/shehansanjula66" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ISO/IEC 27017 — Implementation" />
+    <meta name="twitter:description" content="This is an individual assignment that I did under the Enterprise Standards for Information Security module when I was in the 3rd year 2nd semester. It is basically a toolkit I prepared for ISO/IEC 27017:2015 standard. Here I will share an brief overview of toolkit implementation.AcknowledgementI thank" />
+    <meta name="twitter:url" content="https://blog.shehansanjula.me/iso-iec-27017-implementation/" />
+    <meta name="twitter:image" content="https://blog.shehansanjula.me/content/images/2021/10/ISO_implementation._re_shehan.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Shehan Sanjula" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="ISO/IEC 27017, Shehan Sanjula, Publications, Academic" />
+    <meta name="twitter:site" content="@ShehanSanjula1" />
+    <meta name="twitter:creator" content="@ShehanSanjula1" />
+    <meta property="og:image:width" content="1800" />
+    <meta property="og:image:height" content="1000" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Blog of Shehan",
+        "url": "https://blog.shehansanjula.me/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.shehansanjula.me/content/images/2021/07/shehan_logo_600_72px-1.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Shehan Sanjula",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://blog.shehansanjula.me/content/images/2021/07/Shehan-Resized.jpg",
+            "width": 1000,
+            "height": 1000
+        },
+        "url": "https://blog.shehansanjula.me/author/shehansanjula/",
+        "sameAs": [
+            "https://shehansanjula.me",
+            "https://www.facebook.com/shehansanjula66",
+            "https://twitter.com/ShehanSanjula1"
+        ]
+    },
+    "headline": "ISO/IEC 27017 — Implementation",
+    "url": "https://blog.shehansanjula.me/iso-iec-27017-implementation/",
+    "datePublished": "2021-10-05T03:41:20.000Z",
+    "dateModified": "2021-10-09T13:30:36.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog.shehansanjula.me/content/images/2021/10/ISO_implementation._re_shehan.png",
+        "width": 1800,
+        "height": 1000
+    },
+    "keywords": "ISO/IEC 27017, Shehan Sanjula, Publications, Academic",
+    "description": "&gt; This is an individual assignment that I did under the Enterprise Standards for\nInformation Security module when I was in the 3rd year 2nd semester. It is\nbasically a toolkit I prepared for ISO/IEC 27017:2015 standard. Here I will\nshare an brief overview of toolkit implementation.\n\n--------------------------------------------------------------------------------\n\nAcknowledgement\nI thank Mr Kanishka Yapa, (Sri Lanka Institute of Information Technology) the\nlecturer in charge, for granting us a ch",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.shehansanjula.me/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.18" />
+    <link rel="alternate" type="application/rss+xml" title="Blog of Shehan" href="https://blog.shehansanjula.me/rss/" />
+    
+    <!-- link tag -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" integrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2FW0OofqAVdCZiEYkd6dwGXthvkSFWOoGGJgS2CW70VK5dQM5Oh+7ne47s74VTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- line_numbers -->
+<style>
+    pre[class*=language-] {
+    	margin: 1.75em 0;
+        font-size: 0.9rem;
+       <!-- background: #111; -->
+       <!-- font-size: 1.4rem;-->
+       <!-- margin: 1.75em 0; -->
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/line-numbers/prism-line-numbers.min.css" integrity="sha512-cbQXwDFK7lj2Fqfkuxbo5iD1dSbLlJGXGpfTDqbggqjHJeyzx88I3rfwjS38WJag/ihH7lzuGlGHpDBymLirZQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- clipboard -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/toolbar/prism-toolbar.min.css" integrity="sha512-ycl7dIZ0VJ5535/dzskAMTwOI6OoTNZ3PeD+tfckvYqMmAzaEwQfJHqJTSqcV2iQeJnp5XxnFy5jKotibstp7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- footer -->
+<style>
+.m-footer-copyright span:nth-child(2), .m-footer-copyright span:nth-child(3) {
+    display: none;
+}<style>:root {--ghost-accent-color: #1ebba3;}</style>
+
+    <script>
+      // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat
+      const ghostHost = "https://blog.shehansanjula.me"
+      // @license-end
+    </script>
+  </head>
+  <body class="post-template tag-iso-iec-27017 tag-shehan-sanjula tag-publications tag-academic">
+    
+
+
+
+  
+<header class="m-header with-picture js-header">
+  <div class="m-mobile-topbar" data-aos="fade-down">
+    <button class="m-icon-button in-mobile-topbar js-open-menu" aria-label="Open menu">
+      <span class="icon-menu" aria-hidden="true"></span>
+    </button>
+      <a href="https://blog.shehansanjula.me" class="m-logo in-mobile-topbar">
+        <img src="https://blog.shehansanjula.me/content/images/2021/07/shehan_logo_600_72px-1.png" alt="Blog of Shehan">
+      </a>
+    <button class="m-icon-button in-mobile-topbar js-open-search" aria-label="Open search">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="m-menu js-menu">
+    <button class="m-icon-button outlined as-close-menu js-close-menu" aria-label="Close menu">
+      <span class="icon-close"></span>
+    </button>
+    <div class="m-menu__main" data-aos="fade-down">
+      <div class="l-wrapper">
+        <div class="m-nav js-main-nav">
+          <nav class="m-nav__left js-main-nav-left" role="navigation" aria-label="Main menu">
+            <ul>
+                <li class="only-desktop">
+                  <a href="https://blog.shehansanjula.me" class="m-logo">
+                    <img src="https://blog.shehansanjula.me/content/images/2021/07/shehan_logo_600_72px-1.png" alt="Blog of Shehan">
+                  </a>
+                </li>
+                
+    <li class="nav-me">
+      <a href="https://shehansanjula.me">Me</a>
+    </li>
+    <li class="nav-blog">
+      <a href="https://blog.shehansanjula.me/">Blog</a>
+    </li>
+    <li class="nav-starting-point">
+      <a href="https://blog.shehansanjula.me/tag/startingpoint-walkthrough-htb/">Starting Point</a>
+    </li>
+    <li class="nav-cybersecurity">
+      <a href="https://blog.shehansanjula.me/tag/cybersecurity/">Cybersecurity</a>
+    </li>
+    <li class="nav-open-source">
+      <a href="https://blog.shehansanjula.me/tag/open-source-articles/">Open Source</a>
+    </li>
+    <li class="nav-publications">
+      <a href="https://blog.shehansanjula.me/tag/publications/">Publications</a>
+    </li>
+    <li class="nav-entertainment">
+      <a href="https://blog.shehansanjula.me/tag/entertainment/">Entertainment</a>
+    </li>
+
+                <li class="more">
+                  <span>
+                    <a href="javascript:void(0);" class="js-open-secondary-menu">
+                      More
+                      <span class="icon-chevron-down" aria-hidden="true"></span>
+                    </a>
+                  </span>
+                </li>
+              <li class="submenu-option js-submenu-option">
+                <button class="m-icon-button in-menu-main more js-toggle-submenu" aria-label="Open submenu">
+                  <span class="icon-more" aria-hidden="true"></span>
+                </button>
+                <div class="m-submenu js-submenu">
+                  <div class="l-wrapper in-submenu">
+                    <section class="m-recent-articles">
+                      <h3 class="m-submenu-title in-recent-articles">Recent articles</h3>
+                          <div class="glide js-recent-slider">
+                            <div class="glide__track" data-glide-el="track">
+                              <div class="glide__slides">
+                                <div class="glide__slide">
+                                  <a href="/iso-iec-27017-implementation/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2021/10/ISO_implementation._re_shehan.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="ISO/IEC 27017 — Implementation">
+                                      ISO/IEC 27017 — Implementation
+                                    </h3>
+                                    <span class="m-recent-article__date">4 days ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/mr-robot-ctf-on-tryhackme/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2021/10/Mr-Robot-CTF.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="Mr Robot CTF on TryHackMe">
+                                      Mr Robot CTF on TryHackMe
+                                    </h3>
+                                    <span class="m-recent-article__date">8 days ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/international-standards-iso-iec-27017-part1/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2021/10/Extending_ISO_re_shehan-6.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="ISO/IEC 27017 — Extending ISO/IEC 27001 into the Cloud | BSI">
+                                      ISO/IEC 27017 — Extending ISO/IEC 27001 into the Cloud | BSI
+                                    </h3>
+                                    <span class="m-recent-article__date">a month ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/the-best-songs-of-all-time/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2021/08/spotify-en.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="The best songs of all time | Spotify">
+                                      The best songs of all time | Spotify
+                                    </h3>
+                                    <span class="m-recent-article__date">a month ago</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </section>
+                    <section class="m-tags">
+                      <h3 class="m-submenu-title">Tags</h3>
+                        <ul>
+                            <li>
+                              <a href="/tag/academic/">Academic</a>
+                            </li>
+                            <li>
+                              <a href="/tag/archetype-walkthrough/">Archetype walkthrough</a>
+                            </li>
+                            <li>
+                              <a href="/tag/artificial-general-intelligence/">Artificial General Intelligence</a>
+                            </li>
+                            <li>
+                              <a href="/tag/cyber-attacks/">Cyber-Attacks</a>
+                            </li>
+                            <li>
+                              <a href="/tag/cybersecurity/">Cybersecurity</a>
+                            </li>
+                            <li>
+                              <a href="/tag/data-breach/">Data breach</a>
+                            </li>
+                            <li>
+                              <a href="/tag/endpoint-security/">Endpoint Security</a>
+                            </li>
+                            <li>
+                              <a href="/tag/entertainment/">Entertainment</a>
+                            </li>
+                            <li>
+                              <a href="/tag/evolution-of-ai/">Evolution of AI</a>
+                            </li>
+                            <li>
+                              <a href="/tag/future-developments/">Future Developments</a>
+                            </li>
+                        </ul>
+                    </section>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <div class="m-nav__right">
+            <button class="m-icon-button in-menu-main js-open-search" aria-label="Open search">
+              <span class="icon-search" aria-hidden="true"></span>
+            </button>
+            <div class="m-toggle-darkmode js-tooltip" data-tippy-content="Toggle dark mode" tabindex="0">
+              <label for="toggle-darkmode" class="sr-only">
+                Toggle dark mode
+              </label>
+              <input id="toggle-darkmode" type="checkbox" class="js-toggle-darkmode">
+              <div>
+                <span class="icon-moon moon" aria-hidden="true"></span>
+                <span class="icon-sunny sun" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div id="secondary-navigation-template" style="display: none;">
+      
+  <ul class="m-secondary-menu">
+      <li class="nav-tryhackme-write-ups">
+        <a href="https://blog.shehansanjula.me/tag/tryhackme-write-ups/">TryHackMe Write-ups</a>
+      </li>
+      <li class="nav-hackthebox-write-ups">
+        <a href="https://blog.shehansanjula.me/tag/hackthebox-write-ups/">HackTheBox Write-ups</a>
+      </li>
+      <li class="nav-iso-iec-27017">
+        <a href="https://blog.shehansanjula.me/tag/iso-iec-27017/">ISO/IEC 27017</a>
+      </li>
+  </ul>
+
+    </div>
+</header>
+
+<main class="main-wrap">
+    
+  <section class="m-hero with-picture" data-aos="fade">
+    <div class="m-hero__picture in-post">
+      <img
+        srcset="
+          /content/images/size/w300/2021/10/ISO_implementation._re_shehan.png 300w,
+          /content/images/size/w600/2021/10/ISO_implementation._re_shehan.png 600w,
+          /content/images/size/w1000/2021/10/ISO_implementation._re_shehan.png 1000w,
+          /content/images/size/w2000/2021/10/ISO_implementation._re_shehan.png 2000w
+        "
+        sizes="(max-width: 600px) 600px, (max-width: 1000px) 1000px, 2000px"
+        src="/content/images/size/w1000/2021/10/ISO_implementation._re_shehan.png"
+        alt=""
+      />
+    </div>
+    </section>
+  
+  <article>
+    <div class="l-content in-post">
+        <div class="l-wrapper in-post  js-aos-wrapper" data-aos="fade-up"
+          data-aos-delay="300">
+          <div
+            class="l-post-content js-progress-content">
+            <header class="m-heading">
+              <h1 class="m-heading__title in-post">ISO/IEC 27017 — Implementation</h1>
+              <div class="m-heading__meta">
+                  <a href="https://blog.shehansanjula.me/tag/iso-iec-27017/" class="m-heading__meta__tag">ISO/IEC 27017</a>
+                  <span class="m-heading__meta__divider" aria-hidden="true">&bull;</span>
+                <span class="m-heading__meta__time">Oct 5, 2021</span>
+              </div>
+            </header>
+            <div class="pos-relative js-post-content">
+              <div class="m-share">
+                <div class="m-share__content js-sticky">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=https://blog.shehansanjula.me/iso-iec-27017-implementation/"
+                    class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Facebook">
+                    <span class="icon-facebook" aria-hidden="true"></span>
+                  </a>
+                  <a href="https://twitter.com/intent/tweet?text=ISO%2FIEC%2027017%20%E2%80%94%20Implementation&url=https://blog.shehansanjula.me/iso-iec-27017-implementation/"
+                    class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Twitter">
+                    <span class="icon-twitter" aria-hidden="true"></span>
+                  </a>
+                  <button class="m-icon-button filled in-share progress js-scrolltop" aria-label="Scroll to top">
+                    <span class="icon-arrow-top" aria-hidden="true"></span>
+                    <svg aria-hidden="true">
+                      <circle class="progress-ring__circle js-progress" fill="transparent" r="0" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <blockquote>This is an <code>individual assignment</code> that I did under the <strong>Enterprise Standards for Information Security</strong> module when I was in the 3rd year 2nd semester. It is basically a toolkit I prepared for <code>ISO/IEC 27017:2015</code> standard. Here I will share an brief overview of toolkit implementation.</blockquote><hr><h3 id="acknowledgement">Acknowledgement</h3><!--kg-card-begin: markdown--><p><strong>I thank Mr Kanishka Yapa, (Sri Lanka Institute of Information Technology) the lecturer in charge, for granting us a chance to conduct this toolkit implementation with guidance. This work was supported in part by the Research Groups Faculty of Computing, Department of Computer Systems Engineering under Grant Enterprise Standards for Information Security - IE3102.</strong></p>
+<!--kg-card-end: markdown--><h3 id="a-brief-overview-of-iso-27017">A brief overview of ISO 27017</h3><p>This security standard provides guidelines for information security controls applicable to the provision and use of cloud services. The objectives of operations security are to support the planning and sustaining of day-to-day processes that are critical concerning the security of information environments. As the name suggests, this is a standard related to cloud services.</p><p>Actually, it is an extension of ISO-27002 incorporating clauses specific to information security in the context of the cloud. This standard provides guidance on the information security aspects of cloud computing, recommending and assisting with the implementation of cloud-specific information security controls supplementing the guidance in ISO/IEC 27002 and other ISO27k standards such as ISO 27001, etc.</p><p>The cloud service customers and the cloud service providers can refer to ISO/IEC 27002 and this Recommended International Standard ISO/IEC 27017 to select controls with the implementation guidance, and add other controls if necessary. This process can be done by performing an information security risk assessment and risk treatment in the organizational and business context where cloud services are used or provided. So, that's the basic understanding of the ISO 27017 standard.</p><hr><!--kg-card-begin: html--><iframe src="https://www.slideshare.net/slideshow/embed_code/key/4C61KFNx6KA05Z" width="100%" height="520" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/secret/4C61KFNx6KA05Z" title="Part 1 - ISO 27017 implementation and certification process overview" target="_blank">Part 1 - ISO 27017 implementation and certification process overview</a> </strong> from <strong><a href="https://www.slideshare.net/ShehanSanjula" target="_blank">ShehanSanjula</a></strong> </div><!--kg-card-end: html--><hr><!--kg-card-begin: html--><iframe src="https://www.slideshare.net/slideshow/embed_code/key/Dz10hBAS0QuHQ7" width="100%" height="520" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/secret/Dz10hBAS0QuHQ7" title="Part 2 - ISO 27017 implementation and certification process overview" target="_blank">Part 2 - ISO 27017 implementation and certification process overview</a> </strong> from <strong><a href="https://www.slideshare.net/ShehanSanjula" target="_blank">ShehanSanjula</a></strong> </div><!--kg-card-end: html--><hr><blockquote>Since It's a lengthy process, I'm not planning to discuss the implementation process from top to bottom here. Nevertheless, you can get a clear idea by referring above slides. You can send me an email requesting ISO/IEC 27017 toolkit. It includes Documentations, Excel workbooks and Presentations of the Guidance video, Business case, SOA, Checklist, DR, Policy,... and so on.</blockquote><p>Stay <strong>Blog of Shehan</strong> for more updates!</p>
+                <section class="m-tags in-post">
+                  <h3 class="m-submenu-title">Tags</h3>
+                  <ul>
+                      <li>
+                        <a href="/tag/iso-iec-27017/" title="ISO/IEC 27017">ISO/IEC 27017</a>
+                      </li>
+                      <li>
+                        <a href="/tag/shehan-sanjula/" title="Shehan Sanjula">Shehan Sanjula</a>
+                      </li>
+                      <li>
+                        <a href="/tag/publications/" title="Publications">Publications</a>
+                      </li>
+                      <li>
+                        <a href="/tag/academic/" title="Academic">Academic</a>
+                      </li>
+                  </ul>
+                </section>
+            </div>
+          </div>
+        </div>
+  
+        <section class="m-author">
+          <div class="m-author__content">
+            <div class="m-author__picture">
+              <a href="https://blog.shehansanjula.me/author/shehansanjula/" class="m-author-picture" aria-label="Shehan Sanjula">
+                  <div style="background-image: url(https://blog.shehansanjula.me/content/images/2021/07/Shehan-Resized.jpg);"></div>
+              </a>
+            </div>
+            <div class="m-author__info">
+              <h4 class="m-author__name">
+                <a href="https://blog.shehansanjula.me/author/shehansanjula/">Shehan Sanjula</a>
+              </h4>
+                <p class="m-author__bio">Undergraduate at Sri Lanka Institute of Information Technology.</p>
+              <ul class="m-author-links">
+                  <li>
+                    <a href="https://shehansanjula.me" target="_blank" rel="noopener" aria-label="Website">
+                      <span class="icon-globe" aria-hidden="true"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://facebook.com/shehansanjula66" target="_blank" rel="noopener" aria-label="Facebook">
+                      <span class="icon-facebook" aria-hidden="true"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://twitter.com/@ShehanSanjula1" target="_blank" rel="noopener" aria-label="Twitter">
+                      <span class="icon-twitter" aria-hidden="true"></span>
+                    </a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+          <section class="m-recommended">
+            <div class="l-wrapper in-recommended">
+              <h3 class="m-section-title in-recommended">Recommended for you</h3>
+              <div class="m-recommended-articles">
+                <div class="m-recommended-slider glide js-recommended-slider">
+                  <div class="glide__track" data-glide-el="track">
+                    <div class="glide__slides">
+                      
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-publications tag-research-papers tag-shehan-sanjula tag-academic tag-cyber-attacks tag-data-breach tag-health-care tag-hippa tag-his tag-mitigations tag-recommendation tag-regulations tag-threats">
+    <div class="m-article-card__picture">
+      <a href="/critical-infrastructure-security-in-the-healthcare-sector/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/2021/07/healthcare-26.png" loading="lazy" alt="">
+      <a href="https://blog.shehansanjula.me/author/shehansanjula/" class="m-article-card__author js-tooltip" aria-label="Shehan Sanjula" data-tippy-content="Posted by Shehan Sanjula ">
+          <div style="background-image: url(/content/images/size/w100/2021/07/Shehan-Resized.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://blog.shehansanjula.me/tag/publications/" class="m-article-card__tag">Publications</a>
+      <a href="/critical-infrastructure-security-in-the-healthcare-sector/" class="m-article-card__info-link" aria-label="Critical Infrastructure Security in the Healthcare Sector">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Critical Infrastructure Security in the Healthcare Sector">
+            Critical Infrastructure Security in the Healthcare Sector
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 months ago</span>
+          <span>&bull;</span>
+          <span>1 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-publications tag-shehan-sanjula tag-academic tag-evolution-of-ai tag-narrow-ai tag-artificial-general-intelligence tag-security-procedures-and-incident-response tag-web-security tag-endpoint-security tag-mobile-security tag-threat-intelligence tag-human-security tag-future-developments">
+    <div class="m-article-card__picture">
+      <a href="/the-influence-of-artificial-intelligence-on-cyber-security/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/2021/09/AI-Shehan.png" loading="lazy" alt="">
+      <a href="https://blog.shehansanjula.me/author/shehansanjula/" class="m-article-card__author js-tooltip" aria-label="Shehan Sanjula" data-tippy-content="Posted by Shehan Sanjula ">
+          <div style="background-image: url(/content/images/size/w100/2021/07/Shehan-Resized.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://blog.shehansanjula.me/tag/publications/" class="m-article-card__tag">Publications</a>
+      <a href="/the-influence-of-artificial-intelligence-on-cyber-security/" class="m-article-card__info-link" aria-label="The Influence of Artificial Intelligence on Cyber Security">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="The Influence of Artificial Intelligence on Cyber Security">
+            The Influence of Artificial Intelligence on Cyber Security
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>a year ago</span>
+          <span>&bull;</span>
+          <span>2 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-publications tag-research-papers tag-shehan-sanjula tag-academic tag-ransomware tag-malware-analysis tag-petya tag-notpetya tag-petrwrap tag-mischa tag-goldeneye">
+    <div class="m-article-card__picture">
+      <a href="/petya-ransomware-attack-critical-analysis-detection-and-prevention/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/2021/07/petya-8.png" loading="lazy" alt="">
+      <a href="https://blog.shehansanjula.me/author/shehansanjula/" class="m-article-card__author js-tooltip" aria-label="Shehan Sanjula" data-tippy-content="Posted by Shehan Sanjula ">
+          <div style="background-image: url(/content/images/size/w100/2021/07/Shehan-Resized.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://blog.shehansanjula.me/tag/publications/" class="m-article-card__tag">Publications</a>
+      <a href="/petya-ransomware-attack-critical-analysis-detection-and-prevention/" class="m-article-card__info-link" aria-label="Petya Ransomware Attack: Critical Analysis, Detection, and Prevention">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Petya Ransomware Attack: Critical Analysis, Detection, and Prevention">
+            Petya Ransomware Attack: Critical Analysis, Detection, and Prevention
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 months ago</span>
+          <span>&bull;</span>
+          <span>2 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+                    </div>
+                  </div>
+                  <div data-glide-el="controls" class="glide__arrows js-controls">
+                    <button data-glide-dir="<" class="m-icon-button filled in-recommended-articles glide-prev" aria-label="Previous">
+                      <span class="icon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <button data-glide-dir=">" class="m-icon-button filled in-recommended-articles glide-next" aria-label="Next">
+                      <span class="icon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+    </div>
+  </article>
+</main>
+
+
+
+    
+<div class="m-search js-search" role="dialog" aria-modal="true" aria-label="Search">
+  <button class="m-icon-button outlined as-close-search js-close-search" aria-label="Close search">
+    <span class="icon-close" aria-hidden="true"></span>
+  </button>
+  <div class="m-search__content">
+    <form class="m-search__form">
+      <div class="pos-relative">
+        <span class="icon-search m-search-icon" aria-hidden="true"></span>
+        <label for="search-input" class="sr-only">
+          Type to search
+        </label>
+        <input id="search-input" type="text" class="m-input in-search js-input-search" placeholder="Type to search">
+      </div>
+    </form>
+    <div class="js-search-results hide"></div>
+    <p class="m-not-found align-center hide js-no-results">
+      No results for your search, please try with something else.
+    </p>
+  </div>
+</div>
+
+    
+<footer class="m-footer">
+  <div class="m-footer__content">
+      <nav class="m-footer__nav-secondary" role="navigation" aria-label="Secondary menu in footer">
+        
+  <ul class="m-secondary-menu">
+      <li class="nav-tryhackme-write-ups">
+        <a href="https://blog.shehansanjula.me/tag/tryhackme-write-ups/">TryHackMe Write-ups</a>
+      </li>
+      <li class="nav-hackthebox-write-ups">
+        <a href="https://blog.shehansanjula.me/tag/hackthebox-write-ups/">HackTheBox Write-ups</a>
+      </li>
+      <li class="nav-iso-iec-27017">
+        <a href="https://blog.shehansanjula.me/tag/iso-iec-27017/">ISO/IEC 27017</a>
+      </li>
+  </ul>
+
+      </nav>
+    <nav class="m-footer-social">
+        <a href="https://www.facebook.com/shehansanjula66" target="_blank" rel="noopener" aria-label="Facebook">
+          <span class="icon-facebook" aria-hidden="true"></span>
+        </a>
+        <a href="https://twitter.com/ShehanSanjula1" target="_blank" rel="noopener" aria-label="Twitter">
+          <span class="icon-twitter" aria-hidden="true"></span>
+        </a>
+      <a href="https://blog.shehansanjula.me/rss" aria-label="RSS">
+        <span class="icon-rss" aria-hidden="true"></span>
+      </a>
+    </nav>
+    <p class="m-footer-copyright">
+      <span>Blog of Shehan &copy; 2021</span>
+      <span>&nbsp; &bull; &nbsp;</span>  
+    </p>
+    <p class="m-footer-copyright jslicense">
+      <span>Published with ❤ </span>
+    </p>
+  </div>
+</footer>
+
+    
+    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver%2CPromise%2CArray.prototype.includes%2CString.prototype.endsWith%2CString.prototype.startsWith%2CObject.assign%2CNodeList.prototype.forEach"></script>
+    <script defer src="/assets/js/manifest.js?v=5f8d650140"></script>
+    <script defer src="/assets/js/vendor/content-api.min.js?v=5f8d650140"></script>
+    <script defer src="/assets/js/vendor.js?v=5f8d650140"></script>
+    <script defer src="/assets/js/app.js?v=5f8d650140"></script>
+
+      <script defer src="/assets/js/post.js?v=5f8d650140"></script>
+
+
+    <!-- script tag -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js" integrity="sha512-axJX7DJduStuBB8ePC8ryGzacZPr3rdLaIDZitiEgWWk2gsXxEFlm4UW0iNzj2h3wp5mOylgHAzBzM4nRSvTZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-sql.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-powershell.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-ruby.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"> </script>
+<!-- line_numbers -->
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre[class*=language-]').forEach(function (node) {
+            node.classList.add('line-numbers');
+        });
+        Prism.highlightAll();
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha512-dubtf8xMHSQlExGRQ5R7toxHLgSDZ0K7AunqPWHXmJQ8XyVIG19S1T95gBxlAeGOK02P4Da2RTnQz0Za0H0ebQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- clipboard -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/toolbar/prism-toolbar.min.js" integrity="sha512-YrvgEHAi5/3o2OT+/vh1z19oJXk/Kk0qdVKbjEFl9VRmcLTaWRYzVziZCvoGpJ2TrnV7rB8pnJcz1ioVJjgw2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js" integrity="sha512-pUNGXbOrc+Y3dm5z2ZN7JYQ/2Tq0jppMDOUsN4sQHVJ9AUQpaeERCUfYYBAnaRB9r8d4gtPKMWICNhm3tRr4Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0H273PRXH1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0H273PRXH1');
+</script>
+  </body>
+</html>
