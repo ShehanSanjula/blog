@@ -3,9 +3,3 @@ Sitemap: https://blog.shehansanjula.me/sitemap.xml
 Disallow: /ghost/
 Disallow: /p/
 Disallow: /email/
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
