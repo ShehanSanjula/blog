@@ -1,3 +1,7 @@
+# Notice: Collection of data on ShehanSanjula through automated means is
+# prohibited unless you have express written permission from ShehanSanjula
+# and may only be conducted for the limited purpose contained in said
+# permission.
 User-agent: *
 Sitemap: https://blog.shehansanjula.me/sitemap.xml
 Disallow: /ghost/
