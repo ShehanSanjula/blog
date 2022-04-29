@@ -7,6 +7,12 @@ Sitemap: https://blog.shehansanjula.me/sitemap.xml
 Disallow: /ghost/
 Disallow: /p/
 Disallow: /email/
+User-agent: Googlebot
+Disallow:
+User-agent: AdsBot-Google
+Disallow:
+User-agent: Googlebot-Image
+Disallow:
 User-agent: 01h4x.com
 Disallow:/
 User-agent: 360Spider
