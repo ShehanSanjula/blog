@@ -3,3 +3,4 @@ Sitemap: https://blog.shehansanjula.dev/sitemap.xml
 Disallow: /ghost/
 Disallow: /p/
 Disallow: /email/
+Disallow: /r/
