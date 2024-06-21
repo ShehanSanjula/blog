@@ -1,6 +1,0 @@
-User-agent: *
-Sitemap: https://blog.shehan.live/sitemap.xml
-Disallow: /ghost/
-Disallow: /p/
-Disallow: /email/
-Disallow: /r/
