@@ -8,13 +8,12 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preload" href="/blog/assets/css/app.css?v=a02d33de4d" as="style" />
-    <link rel="preload" href="/blog/assets/js/manifest.js?v=a02d33de4d" as="script" />
-    <link rel="preload" href="/blog/assets/js/vendor.js?v=a02d33de4d" as="script" />
-    <link rel="preload" href="/blog/assets/js/app.js?v=a02d33de4d" as="script" />
+    <link rel="preload" href="/blog/assets/css/app.css?v=e36d3787b8" as="style" />
+    <link rel="preload" href="/blog/assets/js/manifest.js?v=e36d3787b8" as="script" />
+    <link rel="preload" href="/blog/assets/js/vendor.js?v=e36d3787b8" as="script" />
+    <link rel="preload" href="/blog/assets/js/app.js?v=e36d3787b8" as="script" />
 
-      <link rel="preload" href="/blog/assets/css/404.css?v=a02d33de4d" as="style" />
-
+    
 
     <style>
       /* These font-faces are here to make fonts work if the Ghost instance is installed in a subdirectory */
@@ -26,8 +25,8 @@
         font-weight: 400;
         font-display: swap;
         src: local('SourceSansPro-Regular'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff2?v=a02d33de4d") format('woff2'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff?v=a02d33de4d") format('woff');
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff2?v=e36d3787b8") format('woff2'),
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff?v=e36d3787b8") format('woff');
       }
 
       /* source-sans-pro-600 */
@@ -37,8 +36,8 @@
         font-weight: 600;
         font-display: swap;
         src: local('SourceSansPro-SemiBold'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff2?v=a02d33de4d") format('woff2'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff?v=a02d33de4d") format('woff');
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff2?v=e36d3787b8") format('woff2'),
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff?v=e36d3787b8") format('woff');
       }
 
       /* source-sans-pro-700 */
@@ -48,8 +47,8 @@
         font-weight: 700;
         font-display: swap;
         src: local('SourceSansPro-Bold'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff2?v=a02d33de4d") format('woff2'),
-            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff?v=a02d33de4d") format('woff');
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff2?v=e36d3787b8") format('woff2'),
+            url("/blog/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff?v=e36d3787b8") format('woff');
       }
 
       /* iconmoon */
@@ -58,17 +57,117 @@
         font-weight: normal;
         font-style: normal;
         font-display: swap;
-        src: url("/blog/assets/fonts/icomoon/icomoon.eot?101fc3?v=a02d33de4d");
-        src: url("/blog/assets/fonts/icomoon/icomoon.eot?101fc3?v=a02d33de4d#iefix") format('embedded-opentype'),
-        url("/blog/assets/fonts/icomoon/icomoon.ttf?101fc3?v=a02d33de4d") format('truetype'),
-        url("/blog/assets/fonts/icomoon/icomoon.woff?101fc3?v=a02d33de4d") format('woff'),
-        url("/blog/assets/fonts/icomoon/icomoon.svg?101fc3?v=a02d33de4d#icomoon") format('svg');
+        src: url("/blog/assets/fonts/icomoon/icomoon.eot?101fc3?v=e36d3787b8");
+        src: url("/blog/assets/fonts/icomoon/icomoon.eot?101fc3?v=e36d3787b8#iefix") format('embedded-opentype'),
+        url("/blog/assets/fonts/icomoon/icomoon.ttf?101fc3?v=e36d3787b8") format('truetype'),
+        url("/blog/assets/fonts/icomoon/icomoon.woff?101fc3?v=e36d3787b8") format('woff'),
+        url("/blog/assets/fonts/icomoon/icomoon.svg?101fc3?v=e36d3787b8#icomoon") format('svg');
       }
     </style>
 
-    <link rel="stylesheet" type="text/css" href="/blog/assets/css/app.css?v=a02d33de4d" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/blog/assets/css/app.css?v=e36d3787b8" media="screen" />
 
-      <link rel="stylesheet" type="text/css" href="/blog/assets/css/404.css?v=a02d33de4d" media="screen" />
+     <style>
+  /* Reset & Core Layout */
+  .error-page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Animated Deep Gradient Background */
+  background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141E30);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 4rem 0;
+  }
+
+  @keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+  }
+
+  /* Glassmorphism Card */
+  .glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4rem 3rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  }
+
+  /* 404 Glitch/Gradient Text */
+  .error-number {
+  font-size: 10rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #00dbde, #fc00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(0, 219, 222, 0.3));
+  animation: float 6s ease-in-out infinite;
+  }
+
+  .error-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  }
+
+  .error-text {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  }
+
+  /* Modern Button */
+  .home-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #fff;
+  color: #0f0c29;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  .home-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  background: #fff; /* Ensure override */
+  color: #0f0c29;
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+  .error-number { font-size: 6rem; }
+  .glass-card { padding: 2rem; }
+  }
+  </style>
 
 
     
@@ -297,11 +396,8 @@ hsla(0, 0%, 100%, .5);
     </script>
   </head>
   <body class="">
-    
-
-
-
-
+      
+  
 <header class="m-header  js-header"  data-animate="fade-down">
   <div class="m-mobile-topbar">
     <button class="m-icon-button in-mobile-topbar js-open-menu" aria-label="Open menu">
@@ -494,17 +590,39 @@ hsla(0, 0%, 100%, .5);
     </div>
 </header>
 
-<main class="l-fullscreen">
-  <section class="l-fullscreen__content" data-animate="fade-up">
-    <h1 class="m-404-title">404</h1>
-    <p class="m-404-subtitle">Page not found</p>
-    <p class="m-404-text">
-      Unfortunately the page you were looking for could not be found.
-    </p>
-    <a href="https://shehansanjula.github.io/blog" class="m-button outlined">Go to the home page</a>
-  </section>
-</main>
+  <main class="error-page-wrapper">
+    <div class="glass-card" id="tiltCard">
+      <div class="error-number">404</div>
+      <h1 class="error-heading">Lost in the Void</h1>
+      <p class="error-text">
+        The page you&#x27;re looking for seems to have drifted away into the digital universe.
+      </p>
+      <a href="https://shehansanjula.github.io/blog" class="home-btn">Return to Earth</a>
+    </div>
+  </main>
 
+  <script>
+    // Simple localized 3D Tilt Effect
+    const card = document.getElementById('tiltCard');
+    const container = document.querySelector('.error-page-wrapper');
+
+    if (card && container) {
+      container.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+      });
+
+      // Reset on mouse leave
+      container.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s ease';
+        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        setTimeout(() => {
+          card.style.transition = 'none';
+        }, 500);
+      });
+    }
+  </script>
 
       
 <div class="m-search js-search" role="dialog" aria-modal="true" aria-label="Search">
@@ -570,9 +688,9 @@ hsla(0, 0%, 100%, .5);
   </div>
 </footer>
 
-    <script defer src="/blog/assets/js/manifest.js?v=a02d33de4d"></script>
-    <script defer src="/blog/assets/js/vendor.js?v=a02d33de4d"></script>
-    <script defer src="/blog/assets/js/app.js?v=a02d33de4d"></script>
+    <script defer src="/blog/assets/js/manifest.js?v=e36d3787b8"></script>
+    <script defer src="/blog/assets/js/vendor.js?v=e36d3787b8"></script>
+    <script defer src="/blog/assets/js/app.js?v=e36d3787b8"></script>
 
     
 
