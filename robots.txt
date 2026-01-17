@@ -1,5 +1,5 @@
 User-agent: *
-Sitemap: https://blog.shehan.engineer/sitemap.xml
+Sitemap: https://shehansanjula.github.io/blog/sitemap.xml
 Disallow: /ghost/
 Disallow: /email/
 Disallow: /members/api/comments/counts/
